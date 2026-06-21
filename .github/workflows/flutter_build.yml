@@ -26,6 +26,9 @@ jobs:
         run: |
           curl -L "${{ github.event.inputs.zip_url }}" -o project.zip
           unzip -o project.zip -d .
+          echo "=== STRUKTUR FOLDER ==="
+          ls -la
+          find . -maxdepth 3 -type d
 
       - uses: subosito/flutter-action@v2
         with:
@@ -34,6 +37,7 @@ jobs:
 
       - name: Decode Keystore
         run: |
+          mkdir -p android/app
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
 
       - name: Create key.properties
